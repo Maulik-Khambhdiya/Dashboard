@@ -38,7 +38,7 @@ const Academyperformance = () => {
   };
 
   const token = "Bmd2OPMgVDRCEp5n";
-  const [studentList, setStudentList] = useState([]);
+  const [studentList1, setStudentList1] = useState([]);
   const [sList, setSList] = useState([]);
 
   const [editId, setEditId] = useState(null);
@@ -55,7 +55,41 @@ const Academyperformance = () => {
 
   useEffect(() => {
     viewPerformance();
+    viewData()
   }, []);
+
+  function viewData() {
+
+   axios
+      .get("https://generateapi.onrender.com/api/student_details", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        setStudentList1(res.data.Data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios.get("https://generateapi.onrender.com/api/stream", {
+      headers: {
+        Authorization: token
+      }
+    })
+      .then((res) => {
+        setSList(res.data.Data)
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+
+
+
 
   function viewPerformance() {
     axios
@@ -66,6 +100,8 @@ const Academyperformance = () => {
       })
       .then((res) => {
         setAcademicList(res.data.Data);
+        console.log(res.data.Data);
+
       })
       .catch((error) => {
         console.log(error);
@@ -73,6 +109,10 @@ const Academyperformance = () => {
   }
 
   const handleData = (values) => {
+
+
+console.log("Submitting payload:", values);
+
     values.user = userId;
 
     const { _id, ...rest } = values;
@@ -102,12 +142,16 @@ const Academyperformance = () => {
             teacher_commit: "",
             user: null,
           });
+
           setOpen(false);
         })
         .catch((error) => {
           console.log(error);
         });
-    } else {
+
+    } 
+    
+    else {
       axios
         .post(
           "https://generateapi.onrender.com/api/academic_performance",
@@ -172,7 +216,7 @@ const Academyperformance = () => {
                   <Autocomplete
                     disablePortal
                     fullWidth
-                    options={studentList}
+                    options={null}
                     sx={{ width: "100%" }}
                     renderInput={(params) => (
                       <TextField {...params} label="Search" />
@@ -235,11 +279,11 @@ const Academyperformance = () => {
                           sx={{ width: "100%", mb: 2 }}
                           label="Full Name"
                         >
-                          {studentList.map((item, index) => {
+                          {studentList1.map((item, index) =>(
                             <MenuItem value={item._id}>
-                              {item.full_name.student_name}
-                            </MenuItem>;
-                          })}
+                              {item.student_name}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
 
@@ -269,6 +313,7 @@ const Academyperformance = () => {
                       <Field
                         name="percentage"
                         as={TextField}
+                        type="number"
                         label="GPA/Percentage"
                         sx={{ width: "100%", mb: 2 }}
                       ></Field>

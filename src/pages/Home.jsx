@@ -124,7 +124,7 @@ const Home = ({ children }) => {
 
               </Box>
 
-              <Button
+              <Link href="/"><Button
 
                 sx={{
                   color:"white",
@@ -135,8 +135,8 @@ const Home = ({ children }) => {
                   }
                 }}
               >
-                <LogoutIcon></LogoutIcon>
-              </Button>
+               <LogoutIcon></LogoutIcon>
+              </Button></Link>
 
 
             </Box>
@@ -191,9 +191,6 @@ const Home = ({ children }) => {
           <Toolbar />
           {children}
           {/* // get the data using children */}
-
-
-
 
         </Box>
       </Box>
