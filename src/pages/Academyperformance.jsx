@@ -48,7 +48,7 @@ const Academyperformance = () => {
     student_name: "",
     stream: "",
     class_rank: "",
-    percentage: "",
+    percentage: 0,
     teacher_commit: "",
     user: null,
   });
@@ -60,7 +60,7 @@ const Academyperformance = () => {
 
   function viewData() {
 
-   axios
+    axios
       .get("https://generateapi.onrender.com/api/student_details", {
         headers: {
           Authorization: token,
@@ -111,7 +111,7 @@ const Academyperformance = () => {
   const handleData = (values) => {
 
 
-console.log("Submitting payload:", values);
+    console.log("Submitting payload:", values);
 
     values.user = userId;
 
@@ -138,7 +138,7 @@ console.log("Submitting payload:", values);
             student_name: "",
             stream: "",
             class_rank: "",
-            percentage: "",
+            percentage: 0,
             teacher_commit: "",
             user: null,
           });
@@ -149,8 +149,8 @@ console.log("Submitting payload:", values);
           console.log(error);
         });
 
-    } 
-    
+    }
+
     else {
       axios
         .post(
@@ -269,39 +269,44 @@ console.log("Submitting payload:", values);
                 <DialogContent dividers>
                   <Formik initialValues={ini} onSubmit={handleData}>
                     <Form>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          Full Name
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          sx={{ width: "100%", mb: 2 }}
-                          label="Full Name"
-                        >
-                          {studentList1.map((item, index) =>(
-                            <MenuItem value={item._id}>
-                              {item.student_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                      <Field name="student_name">
+                        {({ field }) => (
+                          <FormControl fullWidth sx={{ mb: 2 }}>
+                            <InputLabel id="student-label">Full Name</InputLabel>
+                            <Select
+                              labelId="student-label"
+                              label="Full Name"
+                              {...field}
+                            >
+                              {studentList1.map((item) => (
+                                <MenuItem key={item._id} value={item._id}>
+                                  {item.student_name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        )}
+                      </Field>
 
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          Select Stream
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          sx={{ width: "100%", mb: 2 }}
-                          label="Stream/Class"
-                        >
-                          {sList.map((item, index) => (
-                            <MenuItem value={item._id}>{item.stream}</MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                      <Field name="stream">
+                        {({ field }) => (
+                          <FormControl fullWidth sx={{ mb: 2 }}>
+                            <InputLabel id="stream-label">Select Stream</InputLabel>
+                            <Select
+                              labelId="stream-label"
+                              label="Select Stream"
+                              {...field}
+                            >
+                              {sList.map((item) => (
+                                <MenuItem key={item._id} value={item._id}>
+                                  {item.stream}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        )}
+                      </Field>
+
 
                       <Field
                         name="rank"
@@ -478,6 +483,9 @@ console.log("Submitting payload:", values);
                     }}
                   >
                     {item.class_rank}
+
+
+
                   </td>
 
                   <td

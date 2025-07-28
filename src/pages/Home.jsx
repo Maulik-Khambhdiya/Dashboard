@@ -61,7 +61,7 @@ const Home = ({ children }) => {
           <Link href={text.path} sx={{ textDecoration: "none" }}>
             <ListItem key={text} disablePadding>
 
-              <ListItemButton sx={{
+              <ListItemButton  sx={{
                 ":hover": {
                   backgroundColor: "#1976d2",
                   color: "white",
